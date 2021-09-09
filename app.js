@@ -8,9 +8,6 @@ const path = require('path');
 
 const route = require('./routes/index')
 
-
-
-
 /**
  * TODO: MIDDLEWARE
  */
