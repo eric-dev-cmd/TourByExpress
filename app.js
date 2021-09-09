@@ -28,17 +28,6 @@ app.use((req, res, next) => {
     req.requestTime = new Date().toISOString();
     next();
 });
-
-// app.get('/', (req, res) => {
-//     res.status(200).json({
-//         message: 'Hello from the site home',
-//         app: "Natours"
-//     })
-// })
-// app.post('/', (req, res) => {
-//     res.status(200).send("Post success")
-// })
-
 /**
  * TODO ROUTES
  */
