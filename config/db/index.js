@@ -12,7 +12,8 @@ async function connect() {
             // await mongoose.connect(process.env.DATABASE_LOCAL, {
             useNewUrlParser: true,
             useCreateIndex: true,
-            useFindAndModify: false
+            useFindAndModify: false,
+            useUnifiedTopology: true
         })
         console.log("Connected Success 😍");
     } catch (error) {
