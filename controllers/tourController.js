@@ -7,7 +7,7 @@ exports.getAllTour = async (req, res) => {
         const queryObj = {
             ...req.query
         }
-        const excludedFields = ['page', 'sort', 'limit', 'fields']
+        const excludedFields = ['sort', 'page', 'limit', 'fields']
         excludedFields.forEach(el => delete queryObj[el])
         /**
          * TODO: ADVANCED FILTERING
@@ -17,18 +17,29 @@ exports.getAllTour = async (req, res) => {
          * 4. Query with modified queryString
          * 5. and then with query Results, do select, sort, populate etc
          */
-        console.log(queryObj)
+        // console.log(queryObj)
         // Object to JSON
         let queryStr = JSON.stringify(queryObj)
         queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, match => `$${match}`)
-        const query = Tour.find(JSON.parse(queryStr))
-
+        let query = Tour.find(JSON.parse(queryStr))
+        // console.log("Trung Vinh: ", query)
+        /**
+         * TODO: SORTING
+         */
         // console.log(req.query)
+        console.log("1: ", req.query)
+        if (req.query.sort) {
+            const sortBy = req.query.sort.split(',').join(' ')
+            console.log(sortBy)
+            query = query.sort(sortBy)
+        } else {
+            query = query.sort('-createdAt');
+        }
 
         // { duration: { gte: '7' }, page: '2' } -> i received
         // { difficulty: "easy", duration: {$gte: 5}} -> i need
 
-        const tours = await query
+        const tours = await query;
 
 
         // const tours = await Tour.find({
@@ -41,6 +52,7 @@ exports.getAllTour = async (req, res) => {
         //     .equals(5)
         //     .where('difficulty')
         //     .equals('easy')
+
         return res.status(200).json({
             status: 'Success',
             requestAt: req.requestTime,
