@@ -9,12 +9,28 @@ exports.getAllTour = async (req, res) => {
         }
         const excludedFields = ['page', 'sort', 'limit', 'fields']
         excludedFields.forEach(el => delete queryObj[el])
+        /**
+         * TODO: ADVANCED FILTERING
+         * 1. Copy req.query in a variable
+         * 2. Exclude fields which dont need at find() method.('select', 'sort', etc)
+         * 3. Create queryString and modify to mongoose can understands( in => $in, gt => $gte)
+         * 4. Query with modified queryString
+         * 5. and then with query Results, do select, sort, populate etc
+         */
+        console.log(queryObj)
+        // Object to JSON
+        let queryStr = JSON.stringify(queryObj)
+        queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, match => `$${match}`)
+        const query = Tour.find(JSON.parse(queryStr))
 
-        const query = Tour.find(queryObj)
+        // console.log(req.query)
+
+        // { duration: { gte: '7' }, page: '2' } -> i received
+        // { difficulty: "easy", duration: {$gte: 5}} -> i need
 
         const tours = await query
-        console.log(req.query)
-        
+
+
         // const tours = await Tour.find({
         //     duration: 3,
         //     difficulty: "easy"
