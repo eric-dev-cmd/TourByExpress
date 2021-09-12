@@ -5,7 +5,8 @@ const tourController = require('./../controllers/tourController')
 router.route('/top-5-cheap')
     .get(tourController.aliasTopTours, tourController.getAllTour)
 
-
+router.route('/tour-stats')
+    .get(tourController.getTourStats)
 router.route('/')
     .get(tourController.getAllTour)
     .post(tourController.createTour)
