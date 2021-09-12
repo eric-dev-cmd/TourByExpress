@@ -8,8 +8,8 @@ const DB = process.env.DATABASE.replace('<PASSWORD>', process.env.DATABASE_PASSW
 
 async function connect() {
     try {
-        await mongoose.connect(DB, {
-            // await mongoose.connect(process.env.DATABASE_LOCAL, {
+        // await mongoose.connect(DB, {
+        await mongoose.connect(process.env.DATABASE_LOCAL, {
             useNewUrlParser: true,
             useCreateIndex: true,
             useFindAndModify: false,

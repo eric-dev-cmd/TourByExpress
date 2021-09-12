@@ -47,7 +47,6 @@ class APIFeatures {
 
         // { duration: { gte: '7' }, page: '2' } -> i received
         // { difficulty: "easy", duration: {$gte: 5}} -> i need
-        console.log("Trung vinh: ", this)
         return this
     }
     limitFields() {

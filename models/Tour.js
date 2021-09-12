@@ -51,15 +51,24 @@ const tourSchema = new mongoose.Schema({
         type: [String],
         required: [true, 'A tour must have a image cover 😗']
     },
-    startDates: {
-        type: [Date],
-
-    }
-
+    startDates: [Date]
 }, {
-    timestamps: true
+    toJSON: {
+        virtuals: true
+    },
+    toObject: {
+        virtuals: true
+    }
+}, {
+    timestamps: true,
 })
-
+tourSchema.virtual('durationWeeks').get(function () {
+    return this.duration / 7
+})
+// Document middleware: runs before .save() and .create() .insertMany
+tourSchema.pre('save', function () {
+    console.log(this)
+})
 const Tour = mongoose.model('Tour', tourSchema)
 
 module.exports = Tour

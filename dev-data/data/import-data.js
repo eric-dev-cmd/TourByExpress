@@ -4,6 +4,7 @@ const fs = require('fs')
 db.connect()
 /**
  * TODO: READ FILE JSON
+ * node .\dev-data\data\import-data.js --import
  */
 const tours = JSON.parse(fs.readFileSync(`${__dirname}/tours-simple.json`, 'utf-8'))
 /**
