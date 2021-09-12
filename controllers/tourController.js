@@ -2,7 +2,7 @@ const Tour = require('../models/Tour')
 exports.getAllTour = async (req, res) => {
     try {
         /**
-         * TODO: FILTERING
+         * TODO: 1. Filtering
          */
         const queryObj = {
             ...req.query
@@ -24,7 +24,7 @@ exports.getAllTour = async (req, res) => {
         let query = Tour.find(JSON.parse(queryStr))
         // console.log("Trung Vinh: ", query)
         /**
-         * TODO: SORTING
+         * TODO: 2. Sorting
          */
         // console.log(req.query)
         console.log("1: ", req.query)
@@ -38,7 +38,33 @@ exports.getAllTour = async (req, res) => {
 
         // { duration: { gte: '7' }, page: '2' } -> i received
         // { difficulty: "easy", duration: {$gte: 5}} -> i need
-
+        /**
+         * TODO: 2. Field Limiting
+         */
+        if (req.query.fields) {
+            const fieldsBy = req.query.fields.split(',').join(' ')
+            console.log(fieldsBy)
+            query = query.select(fieldsBy)
+        } else {
+            query = query.select('-__v')
+        }
+        /**
+         * TODO: 4. Pagination
+         */
+        const page = parseInt(req.query.page) || 1
+        const limit = parseInt(req.query.limit) || 100
+        const skip = (page - 1) * limit
+        // page=3&limit=10, 1-10, page 1, 11-20, page 2, 21-30 page 3
+        query = query.skip(skip).limit(limit)
+        if (req.query.page) {
+            const numsTour = await Tour.countDocuments()
+            if (skip >= numsTour) {
+                throw new Error('This page does not exists')
+            }
+        }
+        /**
+         * TODO: 5. EXECUTE QUERY
+         */
         const tours = await query;
 
 
