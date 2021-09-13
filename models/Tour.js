@@ -87,18 +87,31 @@ tourSchema.virtual('durationWeeks').get(function () {
 //     console.log(doc)
 //     next()
 // })
-tourSchema.pre(/^find/, function (next) {
-    this.find({
-        secretTour: {
-            $ne: false
-        }
-    })
+// tourSchema.pre(/^find/, function (next) {
+//     this.find({
+//         secretTour: {
+//             $ne: false
+//         }
+//     })
+//     this.start = Date.now()
+//     next()
+// })
+tourSchema.post(/^find/, function (doc, next) {
     this.start = Date.now()
+
+    console.log(`Query took: ${Date.now()- this.start} miliseconds`)
+    // console.log(doc)
     next()
 })
-tourSchema.post(/^find/, function (doc, next) {
-    console.log(`Query took: ${Date.now()- this.start} miliseconds`)
-    console.log(doc)
+tourSchema.pre('aggregate', function (next) {
+    this.pipeline().unshift({
+        $match: {
+            secretTour: {
+                $ne: false
+            }
+        }
+    })
+    console.log(this.pipeline())
     next()
 })
 const Tour = mongoose.model('Tour', tourSchema)
