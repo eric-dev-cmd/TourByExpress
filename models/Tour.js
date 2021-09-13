@@ -53,7 +53,11 @@ const tourSchema = new mongoose.Schema({
         required: [true, 'A tour must have a image cover 😗']
     },
     startDates: [Date],
-    slug: String
+    slug: String,
+    secretTour: {
+        type: Boolean,
+        default: false
+    }
 }, {
     toJSON: {
         virtuals: true
@@ -68,18 +72,32 @@ tourSchema.virtual('durationWeeks').get(function () {
     return this.duration / 7
 })
 // Document middleware: runs before .save() and .create() .insertMany
-
-tourSchema.pre('save', function (next) {
-    this.slug = slugify(this.name, {
-        lower: true
+// pre chạy => xong thi post moi chay
+// tourSchema.pre('save', function (next) {
+//     this.slug = slugify(this.name, {
+//         lower: true
+//     })
+//     next()
+// })
+// tourSchema.pre('save', function (next) {
+//     console.log("Will you save document...")
+//     next()
+// })
+// tourSchema.post('save', function (doc, next) {
+//     console.log(doc)
+//     next()
+// })
+tourSchema.pre(/^find/, function (next) {
+    this.find({
+        secretTour: {
+            $ne: false
+        }
     })
+    this.start = Date.now()
     next()
 })
-tourSchema.pre('save', function (next) {
-    console.log("Will you save document...")
-    next()
-})
-tourSchema.post('save', function (doc, next) {
+tourSchema.post(/^find/, function (doc, next) {
+    console.log(`Query took: ${Date.now()- this.start} miliseconds`)
     console.log(doc)
     next()
 })
