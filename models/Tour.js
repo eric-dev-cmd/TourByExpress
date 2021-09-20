@@ -88,12 +88,12 @@ tourSchema.virtual('durationWeeks').get(function () {
 })
 // Document middleware: runs before .save() and .create() .insertMany
 // pre chạy => xong thi post moi chay
-// tourSchema.pre('save', function (next) {
-//     this.slug = slugify(this.name, {
-//         lower: true
-//     })
-//     next()
-// })
+tourSchema.pre('save', function (next) {
+    this.slug = slugify(this.name, {
+        lower: true
+    })
+    next()
+})
 // tourSchema.pre('save', function (next) {
 //     console.log("Will you save document...")
 //     next()

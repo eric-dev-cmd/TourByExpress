@@ -1,12 +1,10 @@
 const express = require("express")
-
 const morgan = require("morgan")
-
 const app = express()
-
 const path = require('path');
-
 const route = require('./routes/index')
+const AppError = require('./utils/appErrors')
+const globalErrorHandler = require('./controllers/errorController')
 
 /**
  * TODO: MIDDLEWARE
@@ -32,5 +30,15 @@ app.use((req, res, next) => {
  * TODO ROUTES
  */
 route(app)
+app.all('*', (req, res, next) => {
+
+    // const err = new Error(`Can't find ${req.originalUrl} on this server`)
+    // err.status = 'Failure v'
+    // err.statusCode = 404
+    // next(err)
+    next(new AppError(`Can't find ${req.originalUrl} on this server`))
+})
+app.use(globalErrorHandler)
+
 
 module.exports = app;
