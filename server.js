@@ -1,20 +1,27 @@
-const dotenv = require('dotenv')
-const port = 4000 || process.env.PORT
+const dotenv = require('dotenv');
+const port = 4000 || process.env.PORT;
 dotenv.config({
-    path: './config.env'
-})
+  path: './config.env',
+});
 
-const app = require('./app')
+const app = require('./app');
 /**
  * TODO: Connect DB
  */
-const db = require('./config/db/index')
-db.connect()
+const db = require('./config/db/index');
+db.connect();
 
 /**
  * TODO: PORT
  */
 
-app.listen(port, () => {
-    console.log(`App running on ${port}...`)
-})
+const server = app.listen(port, () => {
+  console.log(`App running on ${port}...`);
+});
+process.on('unhandledRejection', (err) => {
+  console.log(err.name, err.message);
+  console.log('Unhandled Rejection 😮');
+  server.close(() => {
+    process.exit(1);
+  });
+});

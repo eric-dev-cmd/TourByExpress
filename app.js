@@ -12,6 +12,7 @@ const globalErrorHandler = require('./controllers/errorController');
 // app.use(express.urlencoded({
 //     extended: true
 // }))
+
 console.log(process.env.NODE_ENV);
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
@@ -24,13 +25,14 @@ app.use((req, res, next) => {
 });
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
-  console.log(req.headers);
+  console.log('HEADERS: ', req.headers);
   next();
 });
 /**
  * TODO ROUTES
  */
 route(app);
+
 app.all('*', (req, res, next) => {
   // const err = new Error(`Can't find ${req.originalUrl} on this server`)
   // err.status = 'Failure v'
