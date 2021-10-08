@@ -1217,6 +1217,11 @@
     "signal-exit" "^3.0.0"
     "strip-eof" "^1.0.0"
 
+"express-rate-limit@^5.4.1":
+  "integrity" "sha512-ZQh2h3qiu7wWdvWNYHznBhaOp2ZIXNnT4hl2Ff608STeWtCuJ251NzqQlk7mo5wnO2HmrydBYHuVA9Z3S3ZtXg=="
+  "resolved" "https://registry.npmjs.org/express-rate-limit/-/express-rate-limit-5.4.1.tgz"
+  "version" "5.4.1"
+
 "express@^4.17.1":
   "integrity" "sha512-mHJ9O79RqluphRrcw2X/GTh3k9tVv8YcoyY4Kkh4WDMUYKRZUq0h1o0w2rrrxBqM7VoeUVqgb27xlEMXTnYt4g=="
   "resolved" "https://registry.npmjs.org/express/-/express-4.17.1.tgz"
