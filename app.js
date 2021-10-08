@@ -6,6 +6,10 @@ const rateLimit = require('express-rate-limit');
 const route = require('./routes/index');
 const AppError = require('./utils/appErrors');
 const globalErrorHandler = require('./controllers/errorController');
+const helmet = require('helmet');
+const hpp = require('hpp');
+const mongoSanitize = require('express-mongo-sanitize');
+const xss = require('xss-clean');
 
 /**
  * TODO: MIDDLEWARE
@@ -17,6 +21,7 @@ const globalErrorHandler = require('./controllers/errorController');
 // 1) GLOBAL MIDDLEWARES
 // Set security HTTP headers
 app.use(helmet());
+
 console.log(process.env.NODE_ENV);
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
@@ -39,6 +44,20 @@ app.use(mongoSanitize());
 
 // Data sanitization against XSS - lam sach du lieu chong XSS
 app.use(xss());
+
+// Prevent parameter pollution
+app.use(
+  hpp({
+    whitelist: [
+      'duration',
+      'ratingsQuantity',
+      'ratingsAverage',
+      'maxGroupSize',
+      'difficulty',
+      'price',
+    ],
+  })
+);
 
 // Serving static files
 app.use(express.static(path.join(__dirname, 'public')));

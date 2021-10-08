@@ -1,4 +1,4 @@
-const Tour = require('../models/Tour')
+
 class APIFeatures {
     constructor(query, queryString) {
         this.query = query
