@@ -1217,6 +1217,11 @@
     "signal-exit" "^3.0.0"
     "strip-eof" "^1.0.0"
 
+"express-mongo-sanitize@^2.1.0":
+  "integrity" "sha512-ELGeH/Tx+kJGn3klCzSmOewfN1ezJQrkqzq83dl/K3xhd5PUbvLtiD5CiuYRmQfoZPL4rUEVjANf/YjE2BpTWQ=="
+  "resolved" "https://registry.npmjs.org/express-mongo-sanitize/-/express-mongo-sanitize-2.1.0.tgz"
+  "version" "2.1.0"
+
 "express-rate-limit@^5.4.1":
   "integrity" "sha512-ZQh2h3qiu7wWdvWNYHznBhaOp2ZIXNnT4hl2Ff608STeWtCuJ251NzqQlk7mo5wnO2HmrydBYHuVA9Z3S3ZtXg=="
   "resolved" "https://registry.npmjs.org/express-rate-limit/-/express-rate-limit-5.4.1.tgz"
@@ -3506,6 +3511,18 @@
   "integrity" "sha512-PSNhEJDejZYV7h50BohL09Er9VaIefr2LMAf3OEmpCkjOi34eYyQYAXUTjEQtZJTKcF0E2UKTh+osDLsgNim9Q=="
   "resolved" "https://registry.npmjs.org/xdg-basedir/-/xdg-basedir-4.0.0.tgz"
   "version" "4.0.0"
+
+"xss-clean@^0.1.1":
+  "integrity" "sha1-07poTYXM1SBUlj0BrWqzbWYtsaU="
+  "resolved" "https://registry.npmjs.org/xss-clean/-/xss-clean-0.1.1.tgz"
+  "version" "0.1.1"
+  dependencies:
+    "xss-filters" "1.2.6"
+
+"xss-filters@1.2.6":
+  "integrity" "sha1-aLOQicsd/4udvIiUhIObL1B/XFU="
+  "resolved" "https://registry.npmjs.org/xss-filters/-/xss-filters-1.2.6.tgz"
+  "version" "1.2.6"
 
 "xterm@^3.14.5":
   "integrity" "sha512-DVmQ8jlEtL+WbBKUZuMxHMBgK/yeIZwkXB81bH+MGaKKnJGYwA+770hzhXPfwEIokK9On9YIFPRleVp/5G7z9g=="
