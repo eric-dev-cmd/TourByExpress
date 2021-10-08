@@ -33,10 +33,11 @@ const userSchema = mongoose.Schema({
     type: String,
     required: [true, 'Please confirm your password'],
     validate: {
+      // This only works on CREATE and SAVE!!!
       validator: function (el) {
         return el === this.password;
       },
-      message: 'Passwords are not the same',
+      message: 'Passwords are not the same!',
     },
   },
   passwordChangedAt: Date,
@@ -52,6 +53,13 @@ userSchema.pre('save', async function (next) {
   this.passwordConfirm = undefined;
   next();
 });
+userSchema.pre('save', function (next) {
+  if (!this.isModified('password') || this.isNew) return next();
+
+  this.passwordChangedAt = Date.now() - 1000;
+  console.log(this.passwordChangedAt.getTime());
+  next();
+});
 // candidatePassword = MK da nhap
 userSchema.methods.correctPassword = async function (
   candidatePassword,
@@ -65,19 +73,22 @@ userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
       this.passwordChangedAt.getTime() / 1000,
       10
     );
-    console.log(changedTimestamp < JWTTimestamp);
+
     return JWTTimestamp < changedTimestamp;
   }
-  console.log('Khong Thay Doi');
-  // False mean not changed
+
+  // False means NOT changed
   return false;
 };
 userSchema.methods.createPasswordResetToken = function () {
+  // token for url reset password
   const resetToken = crypto.randomBytes(32).toString('hex');
+  // save password for db
   this.passwordResetToken = crypto
     .createHash('sha256')
     .update(resetToken)
     .digest('hex');
+
   console.log({ resetToken }, this.passwordResetToken);
   this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
   return resetToken;
