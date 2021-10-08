@@ -14,6 +14,9 @@ const globalErrorHandler = require('./controllers/errorController');
 //     extended: true
 // }))
 
+// 1) GLOBAL MIDDLEWARES
+// Set security HTTP headers
+app.use(helmet());
 console.log(process.env.NODE_ENV);
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
@@ -27,17 +30,20 @@ const limiter = rateLimit({
 });
 app.use('/api', limiter);
 
+// Body parser, reading data from body into req.body
+app.use(express.json({ limit: '10kb' }));
+
+// Serving static files
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.json());
+
+// Test middleware
 app.use((req, res, next) => {
   console.log('Hello from middleware');
+  // console.log('HEADERS: ', req.headers);
+
   next();
 });
-app.use((req, res, next) => {
-  req.requestTime = new Date().toISOString();
-  console.log('HEADERS: ', req.headers);
-  next();
-});
+
 /**
  * TODO ROUTES
  */
