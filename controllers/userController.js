@@ -6,6 +6,7 @@ const User = require('../models/User');
 const APIFeatures = require('../utils/apiFeatures');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appErrors');
+const factory = require('./handlerFactory');
 
 exports.getAllUsers = catchAsync(async (req, res) => {
   const users = await User.find({});
@@ -66,21 +67,7 @@ exports.createUser = (req, res) => {
     message: 'This is route is not defined 😥',
   });
 };
-exports.getUser = (req, res) => {
-  return res.status(500).json({
-    status: 'error',
-    message: 'This is route is not defined 😥',
-  });
-};
-exports.updateUser = (req, res) => {
-  return res.status(500).json({
-    status: 'error',
-    message: 'This is route is not defined 😥',
-  });
-};
-exports.deleteUser = (req, res) => {
-  return res.status(500).json({
-    status: 'error',
-    message: 'This is route is not defined 😥',
-  });
-};
+exports.getUser = factory.getOne(User);
+// Do NOT update passwords with this!
+exports.updateUser = factory.updateOne(User);
+exports.deleteUser = factory.deleteOne(User);

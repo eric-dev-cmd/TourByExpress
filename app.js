@@ -3,13 +3,16 @@ const morgan = require('morgan');
 const app = express();
 const path = require('path');
 const rateLimit = require('express-rate-limit');
-const route = require('./routes/index');
 const AppError = require('./utils/appErrors');
 const globalErrorHandler = require('./controllers/errorController');
 const helmet = require('helmet');
 const hpp = require('hpp');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
+
+const tourRouter = require('./routes/toursRoutes');
+const userRouter = require('./routes/usersRoutes');
+const reviewRouter = require('./routes/reviewsRoutes');
 
 /**
  * TODO: MIDDLEWARE
@@ -73,7 +76,10 @@ app.use((req, res, next) => {
 /**
  * TODO ROUTES
  */
-route(app);
+// 3) ROUTES
+app.use('/api/v1/tours', tourRouter);
+app.use('/api/v1/users', userRouter);
+app.use('/api/v1/reviews', reviewRouter);
 
 app.all('*', (req, res, next) => {
   // const err = new Error(`Can't find ${req.originalUrl} on this server`)
