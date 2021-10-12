@@ -56,7 +56,7 @@ exports.getTour = catchAsync(async (req, res, next) => {
   // const tour = await Tour.findOne({
   //     _id: req.params.id
   // })
-  console.log(tour);
+  // console.log(tour);
   if (!tour) {
     console.log('No');
     return next(new AppError(`No tour found with that ID`, 404));
