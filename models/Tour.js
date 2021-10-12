@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const slugify = require('slugify');
-const User = require('./User');
+const Review = require('./Review');
 
 const tourSchema = new mongoose.Schema(
   {
@@ -121,6 +121,13 @@ const tourSchema = new mongoose.Schema(
 tourSchema.virtual('durationWeeks').get(function () {
   return this.duration / 7;
 });
+// Virtual populate
+tourSchema.virtual('reviews', {
+  ref: 'Review',
+  foreignField: 'tour',
+  localField: '_id',
+});
+
 // Document middleware: runs before .save() and .create() .insertMany
 // pre chạy => xong thi post moi chay
 tourSchema.pre('save', function (next) {
