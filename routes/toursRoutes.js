@@ -8,14 +8,14 @@ router.use('/:tourId/reviews', reviewsRouter);
 
 router
   .route('/top-5-cheap')
-  .get(tourController.aliasTopTours, tourController.getAllTour);
+  .get(tourController.aliasTopTours, tourController.getAllTours);
 
 router.route('/tour-stats').get(tourController.getTourStats);
 
 router.route('/monthly-plan/:year').get(tourController.getMonthlyPlan);
 router
   .route('/')
-  .get(authController.protect, tourController.getAllTour)
+  .get(authController.protect, tourController.getAllTours)
   .post(tourController.createTour);
 
 router
