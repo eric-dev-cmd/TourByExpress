@@ -41,17 +41,7 @@ exports.getAllTour = catchAsync(async (req, res) => {
   });
 });
 
-exports.createTour = catchAsync(async (req, res, next) => {
-  // const newTour = new Tour({})
-  // newTour.save()
-  const newTour = await Tour.create(req.body);
-  res.status(201).json({
-    status: 'Success 🥰',
-    data: {
-      tour: newTour,
-    },
-  });
-});
+exports.createTour = factory.createOne(Tour);
 exports.getTour = catchAsync(async (req, res, next) => {
   const tour = await Tour.findById(req.params.id).populate('reviews');
   // const tour = await Tour.findOne({
