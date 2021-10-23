@@ -1,7 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
 const app = express();
-const path = require('path');
 const rateLimit = require('express-rate-limit');
 const AppError = require('./utils/appErrors');
 const globalErrorHandler = require('./controllers/errorController');
@@ -9,10 +8,12 @@ const helmet = require('helmet');
 const hpp = require('hpp');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
-
+const path = require('path');
+const pug = require('pug');
 const tourRouter = require('./routes/toursRoutes');
 const userRouter = require('./routes/usersRoutes');
 const reviewRouter = require('./routes/reviewsRoutes');
+const viewsRoutes = require('./routes/viewsRoutes');
 
 /**
  * TODO: MIDDLEWARE
@@ -20,7 +21,8 @@ const reviewRouter = require('./routes/reviewsRoutes');
 // app.use(express.urlencoded({
 //     extended: true
 // }))
-
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, './views'));
 // 1) GLOBAL MIDDLEWARES
 // Set security HTTP headers
 app.use(helmet());
@@ -77,6 +79,12 @@ app.use((req, res, next) => {
  * TODO ROUTES
  */
 // 3) ROUTES
+app.get('/tour', (req, res) => {
+  res.status(200).render('tour', {
+    title: 'Tour',
+  });
+});
+app.use('/', viewsRoutes);
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/reviews', reviewRouter);
